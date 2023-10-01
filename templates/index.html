@@ -1,0 +1,25 @@
+{% extends "_layout.html" %}
+
+{% block content %}
+
+  <input id="search" type="search" name="q" placeholder="タイトルか登壇者を入力" value="{{ request.args.get('q') or '' }}"
+          hx-get="/"
+          hx-trigger="search, keyup delay:200ms changed"
+          hx-target="tbody"
+          hx-push-url="true"
+          hx-indicator="#spinner"/>
+<table>
+  <thead>
+    <tr>
+      <th scope="col">タイトル</th>
+      <th scope="col">登壇者</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% with talks = talks %}
+    {% include "_rows.html" %}
+    {% endwith %}
+  </tbody>
+</table>
+
+{% endblock content %}
