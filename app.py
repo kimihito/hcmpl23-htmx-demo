@@ -12,15 +12,22 @@ db.insert({'title': "コードで季節を表現しよう", "presenter": "tompng
 
 
 app = Flask(__name__)
+
+def _search_talk(text=None):
+  TalkQuery = Query()
+  talks = None
+  if text:
+    TalkQuery = Query()
+    talks = db.search((TalkQuery.title.search(text)) | (TalkQuery.presenter.search(text)))
+  else:
+    talks = db.all()
+  return talks
+
+
 @app.route("/")
 def index():
   search_query = request.args.get("q") or None
-  talks = None
-  if search_query:
-    TalkQuery = Query()
-    talks = db.search((TalkQuery.title.search(search_query)) | (TalkQuery.presenter.search(search_query)))
-  else:
-    talks = db.all()
+  talks = _search_talk(search_query)
 
   if request.headers.get("HX-Trigger") == "search":
     return render_template("_rows.html", talks=talks)

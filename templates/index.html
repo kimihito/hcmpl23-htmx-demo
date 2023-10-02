@@ -2,9 +2,13 @@
 
 {% block content %}
 
-  <input id="search" type="search" name="q" placeholder="タイトルか登壇者を入力" value="{{ request.args.get('q') or '' }}"
+  <input id="search"
+          type="search"
+          name="q"
+          placeholder="タイトルか登壇者を入力"
+          value="{{ request.args.get('q') or '' }}"
           hx-get="/"
-          hx-trigger="search, keyup delay:200ms changed"
+          hx-trigger="search, keyup delay:400ms changed"
           hx-target="tbody"
           hx-push-url="true"/>
 <table>
